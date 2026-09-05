@@ -112,6 +112,24 @@ init_state()
 
 
 # Pipeline helpers
+def indian_format(number):
+    number = str(int(number))
+
+    if len(number) <= 3:
+        return number
+
+    last_3 = number[-3:]
+    remaining = number[:-3]
+
+    result = ""
+    while len(remaining) > 2:
+        result = "," + remaining[-2:] + result
+        remaining = remaining[:-2]
+
+    if remaining:
+        result = remaining + result
+
+    return result + "," + last_3
 
 def run_reconciliation():
     t0 = time.time()
@@ -319,8 +337,8 @@ elif page == "Command Center":
         c5, c6, c7, c8 = st.columns(4)
         automation_rate = len(matched) / n_gateway if n_gateway else 0
         c5.metric("Automation rate", f"{automation_rate:.1%}")
-        c6.metric("Total value processed", f"₹{total_value:,.0f}")
-        c7.metric("Matched value", f"₹{matched_value:,.0f}")
+        c6.metric("Total value processed", f"₹{indian_format(total_value)}")
+        c7.metric("Matched value", f"₹{indian_format(matched_value)}")
         c8.metric("Processing time", f"{st.session_state.processing_time:.3f}s")
 
         st.divider()
