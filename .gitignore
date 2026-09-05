@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.streamlit/secrets.toml
+outputs/*.csv
+data/sample/*.csv
+
+# Editor/OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
