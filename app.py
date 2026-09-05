@@ -28,10 +28,10 @@ AUTO_MATCH_TYPES = ("exact", "fuzzy", "fee_adjusted", "refund_adjusted")
 
 st.set_page_config(page_title="LedgerGuard — AI Finance Controller", layout="wide", page_icon="🛡️")
 
-# ---------------------------------------------------------------------------
-# Dark "fintech console" theming — cyan accent, subtle glow, no gimmicky
-# animations. Colors here should stay in sync with .streamlit/config.toml.
-# ---------------------------------------------------------------------------
+
+
+# animations
+
 st.markdown("""
 <style>
     :root {
@@ -93,9 +93,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# ---------------------------------------------------------------------------
+
 # Session state initialization
-# ---------------------------------------------------------------------------
+
 def init_state():
     defaults = {
         "gateway_records": None, "bank_records": None, "ground_truth_records": None,
@@ -110,9 +110,9 @@ def init_state():
 init_state()
 
 
-# ---------------------------------------------------------------------------
+
 # Pipeline helpers
-# ---------------------------------------------------------------------------
+
 def run_reconciliation():
     t0 = time.time()
     results = matcher.run_matcher(
@@ -197,9 +197,9 @@ def results_df():
     return pd.DataFrame(rows)
 
 
-# ---------------------------------------------------------------------------
+
 # Sidebar navigation
-# ---------------------------------------------------------------------------
+
 st.sidebar.markdown(
     '<div class="lg-brand">🛡️ LedgerGuard</div>'
     '<div class="lg-tagline">Reconcile money movement.<br>Explain every decision.<br>Escalate uncertainty.</div>',
@@ -221,9 +221,9 @@ if has_data:
     st.sidebar.caption(f"Source: {st.session_state.data_source}")
 
 
-# ===========================================================================
+
 # PAGE: Data / Run
-# ===========================================================================
+
 if page == "Data / Run":
     st.title("Data / Run")
     st.caption("Load a dataset and run the reconciliation pipeline end to end.")
@@ -282,9 +282,9 @@ if page == "Data / Run":
                             file_name="match_results.csv", mime="text/csv")
 
 
-# ===========================================================================
+
 # PAGE: Command Center
-# ===========================================================================
+
 elif page == "Command Center":
     if st.session_state.match_results is None:
         st.markdown("""
@@ -362,9 +362,9 @@ elif page == "Command Center":
         st.altair_chart(status_chart, use_container_width=True)
 
 
-# ===========================================================================
+
 # PAGE: Reconciliation
-# ===========================================================================
+
 elif page == "Reconciliation":
     st.title("Reconciliation")
     if st.session_state.match_results is None:
@@ -393,10 +393,8 @@ elif page == "Reconciliation":
         )
         st.caption(f"Showing {len(filtered)} of {len(df)} records")
 
-
-# ===========================================================================
 # PAGE: Transaction Investigator
-# ===========================================================================
+
 elif page == "Transaction Investigator":
     st.title("Transaction Investigator")
     if st.session_state.match_results is None:
@@ -433,9 +431,9 @@ elif page == "Transaction Investigator":
                 st.warning("No bank records fall within the date/amount blocking window for this transaction.")
 
 
-# ===========================================================================
+
 # PAGE: Exception Center
-# ===========================================================================
+
 elif page == "Exception Center":
     st.title("Exception Center")
     if st.session_state.match_results is None:
@@ -495,9 +493,9 @@ elif page == "Exception Center":
             st.success("No exceptions in this batch.")
 
 
-# ===========================================================================
+
 # PAGE: Human Review
-# ===========================================================================
+
 elif page == "Human Review":
     st.title("Human Review")
     if st.session_state.match_results is None:
@@ -566,9 +564,9 @@ elif page == "Human Review":
                 st.warning("No candidates found for this record.")
 
 
-# ===========================================================================
+
 # PAGE: Model / Evaluation
-# ===========================================================================
+
 elif page == "Model / Evaluation":
     st.title("Model / Evaluation")
     if st.session_state.ml_result is None:
